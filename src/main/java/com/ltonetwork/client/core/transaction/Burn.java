@@ -5,6 +5,7 @@ import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.primitives.Shorts;
 import com.ltonetwork.client.exceptions.BadMethodCallException;
+import com.ltonetwork.client.exceptions.InvalidArgumentException;
 import com.ltonetwork.client.types.Address;
 import com.ltonetwork.client.types.Encoding;
 import com.ltonetwork.client.types.JsonObject;
@@ -58,7 +59,7 @@ public class Burn extends Transaction {
                 Longs.toByteArray(this.timestamp),                  // 8b
                 this.senderPublicKey.toBinary(),                    // 33b|34b
                 Longs.toByteArray(this.fee),                        // 8b
-                Longs.toByteArray(this.amount),                     // 8b
+                Longs.toByteArray(this.amount)                      // 8b
         );
     }
 }

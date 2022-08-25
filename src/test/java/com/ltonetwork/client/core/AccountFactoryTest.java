@@ -1,6 +1,8 @@
 package com.ltonetwork.client.core;
 
+import com.ltonetwork.client.core.transaction.Transfer;
 import com.ltonetwork.client.exceptions.InvalidAccountException;
+import com.ltonetwork.client.types.Address;
 import com.ltonetwork.client.types.Key;
 import com.ltonetwork.client.types.KeyPair;
 import com.ltonetwork.client.utils.CryptoUtil;
@@ -9,6 +11,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
@@ -64,6 +68,20 @@ public class AccountFactoryTest {
     public void testCreateAddress() {
         String generatedAddress = af.createAddress(sign.getPublicKey()).getAddress();
         assertEquals(address, generatedAddress);
+    }
+
+    @Test
+    public void testCreateSignAndBoradcast() throws URISyntaxException {
+        AccountFactory l = new AccountFactory("L", 233234);
+        Account fromSeed = l.createFromSeed("ebBkg#7jZ*PnYK3GDecDCS$^$zBDE5!dgfsfsdfasf@BPVqw3YUuvJyxxm@qvmcd%X3jBH@m6NqGk9QrS$dre@u@fKf");
+        PublicNode publicNode = new PublicNode(new URI("https://nodes.lto.network"), "");
+        int amount = 100;
+
+        Address recipient = new Address("3JmCa4jLVv7Yn2XkCnBUGsa7WNFVEMxAfWe");
+
+        Transfer tx = new Transfer(amount, recipient);
+        tx.signWith(fromSeed);
+        publicNode.broadcast(tx);
     }
 
     @Test
